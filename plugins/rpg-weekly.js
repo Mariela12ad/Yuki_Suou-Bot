@@ -1,36 +1,35 @@
 const we = 5000;
 let handler = async (m, { conn }) => {
-    if (!m.isGroup) return m.reply("❌ Este comando solo puede usarse en grupos.");
 
     let user = global.db.data.users[m.sender] || {};
-    user.weekly = user.weekly || 0; // Asegurarse de que user.weekly esté definido
+    user.weekly = user.weekly || 0;
 
     const cooldown = 604800000; // 1 semana
 
     if (new Date - user.weekly < cooldown) {
-        return m.reply(`⏱️ ¡Ya reclamaste tu regalo semanal! Vuelve en:\n *${msToTime((user.weekly + cooldown) - new Date())}*`);
+        return m.reply(`${emoji3} ¡Ya reclamaste tu regalo semanal! Vuelve en:\n *${msToTime((user.weekly + cooldown) - new Date())}*`);
     }
 
-    let yenesReward = pickRandom([1, 2, 3]);
+    let coinReward = pickRandom([1, 2, 3]);
     let expReward = pickRandom([100, 200, 300]);
 
-    user.coin = (user.coin || 0) + we;
-    user.yenes = (user.yenes || 0) + yenesReward;
+    user.coin = (user.coin || 0) + coinReward;
     user.exp = (user.exp || 0) + expReward;
 
     m.reply(`
-🎁 ¡Ha pasado una semana! ¡Disfruta de tu regalo semanal! 🌷
+🎁 ¡Ha pasado una semana! ¡Disfruta de tu regalo semanal!.
 
-🪙 *Coins* : +${we.toLocaleString()}
-🍪 *Yenes* : +${yenesReward}
+💸 *${moneda}* : +${coinReward}
 ✨ *Experiencia* : +${expReward}`);
 
-    user.weekly = new Date * 1; // Actualizar la fecha de reclamación
+    user.weekly = new Date * 1;
 }
 
 handler.help = ['weekly'];
 handler.tags = ['rpg'];
 handler.command = ['semanal', 'weekly'];
+handler.group = true;
+handler.register = true;
 
 export default handler;
 

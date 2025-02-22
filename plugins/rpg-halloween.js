@@ -1,52 +1,51 @@
-const baseCoinReward = 100000; // Aumento en la recompensa base de monedas
+const baseCoinReward = 10000;
 
 var handler = async (m, { conn }) => {
-    if (!m.isGroup) return m.reply("❌ Este comando solo puede usarse en grupos.");
 
     let user = global.db.data.users[m.sender] || {};
-    user.halloween = user.halloween || 0; // Asegurarse de que user.halloween esté definido
+    user.halloween = user.halloween || 0;
 
     const currentDate = new Date();
     const currentYear = currentDate.getFullYear();
-    const isOctober = currentDate.getMonth() === 9; // Octubre es el mes 9 (0-indexado)
+    const isOctober = currentDate.getMonth() === 9;
 
     const cooldown = 365 * 24 * 60 * 60 * 1000; // 1 año en milisegundos
     let timeRemaining = user.halloween + cooldown - currentDate.getTime();
 
-    // Verificar si el usuario puede reclamar el regalo solo en octubre
     if (!isOctober) {
         return m.reply(`🎃 ¡Solo puedes reclamar tu regalo de Halloween en octubre! Vuelve en octubre de ${currentYear}.`);
     }
 
     if (timeRemaining > 0) {
-        return m.reply(`⏱️ ¡Ya reclamaste tu regalo de Halloween este año! Vuelve en:\n *${msToTime(timeRemaining)}*`);
+        return m.reply(`${emoji3} ¡Ya reclamaste tu regalo de Halloween este año! Vuelve en:\n *${msToTime(timeRemaining)}*`);
     }
 
-    // Aumento en las recompensas
-    let coinReward = pickRandom([20000, 30000, 40000, baseCoinReward]);
+    let coinReward = pickRandom([5, 10, 15, 20]);
     let candyReward = pickRandom([5, 10, 15, 20]);
     let expReward = pickRandom([2000, 3000, 4000, 5000]);
-    let giftReward = pickRandom([2, 3, 4, 5]); // Regalos de Halloween
+    let giftReward = pickRandom([2, 3, 4, 5]);
 
     user.coin = (user.coin || 0) + coinReward;
     user.candies = (user.candies || 0) + candyReward;
     user.exp = (user.exp || 0) + expReward;
-    user.gifts = (user.gifts || 0) + giftReward; // Añadir regalos de Halloween
+    user.gifts = (user.gifts || 0) + giftReward;
 
     m.reply(`
 \`\`\`🎃 ¡Feliz Halloween! ¡Disfruta de tu regalo de Halloween! 👻\`\`\`
 
-🪙 *Coins* : +${coinReward.toLocaleString()}
+💸 *${moneda}* : +${coinReward}
 🍬 *Dulces* : +${candyReward}
 ✨ *Experiencia* : +${expReward}
 🎃 *Regalos de Halloween* : +${giftReward}`);
 
-    user.halloween = new Date().getTime(); // Actualizar la fecha de reclamación
+    user.halloween = new Date().getTime();
 }
 
 handler.help = ['halloween'];
 handler.tags = ['rpg'];
 handler.command = ['halloween'];
+handler.group = true;
+handler.register = true;
 
 export default handler;
 

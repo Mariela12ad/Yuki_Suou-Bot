@@ -1,6 +1,6 @@
 const handler = async (m, { isPrems, conn }) => {
   if (!global.db.data.users[m.sender]) {
-    throw `⚠️ Usuario no encontrado.`;
+    throw `${emoji4} Usuario no encontrado.`;
   }
 
   const lastCofreTime = global.db.data.users[m.sender].lastcofre;
@@ -8,40 +8,40 @@ const handler = async (m, { isPrems, conn }) => {
 
   if (Date.now() < timeToNextCofre) {
     const tiempoRestante = timeToNextCofre - Date.now();
-    const mensajeEspera = `🎁 Ya reclamaste tu cofre\n⏰️ Regresa en: *${msToTime(tiempoRestante)}* para volver a reclamar.`;
+    const mensajeEspera = `${emoji3} Ya reclamaste tu cofre\n⏰️ Regresa en: *${msToTime(tiempoRestante)}* para volver a reclamar.`;
     await conn.sendMessage(m.chat, { text: mensajeEspera }, { quoted: m });
     return;
   }
 
-  const img = 'https://qu.ax/rZZfy.jpg';
-  const dia = Math.floor(Math.random() * 30);
+  const img = 'https://qu.ax/UhXkr.jpg';
+  const dia = Math.floor(Math.random() * 100);
   const tok = Math.floor(Math.random() * 10);
-  const ai = Math.floor(Math.random() * 4000);
+  const ai = Math.floor(Math.random() * 40);
   const expp = Math.floor(Math.random() * 5000);
 
-  global.db.data.users[m.sender].yenes += dia;
-  global.db.data.users[m.sender].money += ai;
+  global.db.data.users[m.sender].coin += dia;
+  global.db.data.users[m.sender].diamonds += ai;
   global.db.data.users[m.sender].joincount += tok;
   global.db.data.users[m.sender].exp += expp;
   global.db.data.users[m.sender].lastcofre = Date.now();
 
   const texto = `
-╭━〔 ${global.botname} 〕⬣
-┃🧰 *Obtienes Un Cofre*
+╭━〔 Cσϝɾҽ Aʅҽαƚσɾισ 〕⬣
+┃📦 *Obtienes Un Cofre*
 ┃ ¡Felicidades!
 ╰━━━━━━━━━━━━⬣
 
-╭━〔 ${global.botname} 〕⬣
-┃ *${dia} Yenes* 💴
+╭━〔 Nυҽʋσʂ Rҽƈυɾʂσʂ 〕⬣
+┃ *${dia} ${moneda}* 💸
 ┃ *${tok} Tokens* ⚜️
-┃ *${ai} Coins* 🪙
+┃ *${ai} Diamantes* 💎
 ┃ *${expp} Exp* ✨
 ╰━━━━━━━━━━━━⬣`;
 
   try {
-    await conn.sendFile(m.chat, img, 'yuki.jpg', texto);
+    await conn.sendFile(m.chat, img, 'yuki.jpg', texto, fkontak);
   } catch (error) {
-    throw `⚠️ Ocurrió un error al enviar el cofre.`;
+    throw `${msm} Ocurrió un error al enviar el cofre.`;
   }
 };
 
