@@ -1,35 +1,37 @@
 const handler = async (m, {conn, participants, groupMetadata}) => {
-  const pp = await conn.profilePictureUrl(m.chat, 'image').catch((_) => null) || `${global.icons}`;
-  const {antiToxic, reaction, antiTraba, antidelete, antiviewonce, welcome, detect, antiLink, antiLink2, modohorny, autosticker, audios} = global.db.data.chats[m.chat];
+  const pp = await conn.profilePictureUrl(m.chat, 'image').catch((_) => null) || `${icono}`;
+  const {antiLink, detect, welcome, modoadmin, antiPrivate, autoRechazar, nsfw, autoAceptar, restrict, antiSpam, reaction, antiviewonce, antiTraba, antiToxic} = global.db.data.chats[m.chat];
   const groupAdmins = participants.filter((p) => p.admin);
   const listAdmin = groupAdmins.map((v, i) => `${i + 1}. @${v.id.split('@')[0]}`).join('\n');
   const owner = groupMetadata.owner || groupAdmins.find((p) => p.admin === 'superadmin')?.id || m.chat.split`-`[0] + '@s.whatsapp.net';
-  const text = `✨ *INFO GRUPO*
-💌 *ID:*
+  const text = `*✧･ﾟ INFO GRUPO ﾟ･✧*
+❀ *ID:*
 → ${groupMetadata.id}
-🥷 *Nombre:*
+⚘ *Nombre:*
 → ${groupMetadata.subject}
-🌟 *Descripción:*
-→ Leelo puta (￣へ ￣ 凸
-💫 *Miembros:*
+✦ *Descripción:*
+→ ${groupMetadata.desc?.toString() || 'Sin Descripción'}
+❖ *Miembros:*
 → ${participants.length} Participantes
-👑 *Creador del Grupo:*
+✰ *Creador del Grupo:*
 → @${owner.split('@')[0]}
-🏆 *Administradores:*
+✥ *Administradores:*
 ${listAdmin}
 
-💭 *CONFIGURACIÓN*
+˚₊· ͟͟͞͞➳❥ *CONFIGURACIÓN*
 
-◈ *Welcome:* ${welcome ? '✅' : '❌'}
+◈ *Welcome:* ${welcome ? '✅' : ''}
 ◈ *Detect:* ${detect ? '✅' : '❌'}  
 ◈ *Antilink:* ${antiLink ? '✅' : '❌'} 
-◈ *Antilink 𝟸:* ${antiLink2 ? '✅' : '❌'} 
-◈ *Modohorny:* ${modohorny ? '✅' : '❌'} 
-◈ *Autosticker:* ${autosticker ? '✅' : '❌'} 
-◈ *Audios:* ${audios ? '✅' : '❌'} 
+◈ *Autoaceptar:* ${autoAceptar ? '✅' : '❌'} 
+◈ *Autorechazar:* ${autoRechazar ? '✅' : '❌'} 
+◈ *Nfsw:* ${nsfw ? '✅' : '❌'} 
+◈ *Antiprivado:* ${antiPrivate ? '✅' : '❌'} 
+◈ *Modoadmin:* ${modoadmin ? '✅' : '❌'} 
 ◈ *Antiver:* ${antiviewonce ? '✅' : '❌'} 
 ◈ *Reacción* ${reaction ? "✅️" : "❌️"}
-◈ *Delete:* ${antidelete ? '✅' : '❌'} 
+◈ *Antispam:* ${antiSpam ? '✅' : '❌'} 
+◈ *Restrict:* ${restrict ? '✅' : '❌'} 
 ◈ *Antitoxic:* ${antiToxic ? '✅' : '❌'} 
 ◈ *Antitraba:* ${antiTraba ? '✅' : '❌'} 
 `.trim();
@@ -40,4 +42,5 @@ handler.tags = ['grupo'];
 handler.command = ['infogrupo', 'gp'];
 handler.register = true
 handler.group = true;
+
 export default handler;

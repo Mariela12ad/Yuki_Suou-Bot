@@ -1,16 +1,19 @@
 import fetch from 'node-fetch';
 import cheerio from 'cheerio';
 
-
 const handler = async (m, {conn, args, command, usedPrefix}) => {
-  const datas = global
-if (!db.data.chats[m.chat].nsfw && m.isGroup) {
-    return m.reply('[❗] 𝐋𝐨𝐬 𝐜𝐨𝐦𝐚𝐧𝐝𝐨𝐬 +𝟏𝟖 𝐞𝐬𝐭𝐚́𝐧 𝐝𝐞𝐬𝐚𝐜𝐭𝐢𝐯𝐚𝐝𝐨𝐬 𝐞𝐧 𝐞𝐬𝐭𝐞 𝐠𝐫𝐮𝐩𝐨.\n> 𝐬𝐢 𝐞𝐬 𝐚𝐝𝐦𝐢𝐧 𝐲 𝐝𝐞𝐬𝐞𝐚 𝐚𝐜𝐭𝐢𝐯𝐚𝐫𝐥𝐨𝐬 𝐮𝐬𝐞 .enable nsfw');
-    }
-  if (!args[0]) throw `*[❗𝐈𝐍𝐅𝐎❗] 𝙸𝙽𝙶𝚁𝙴𝚂𝙴 𝚄𝙽 𝙴𝙽𝙻𝙰𝙲𝙴 𝚅𝙰𝙻𝙸𝙳𝙾 𝙳𝙴 𝚇𝙽𝚇𝚇, 𝙴𝙹𝙴𝙼𝙿𝙻𝙾: ${usedPrefix + command} https://www.xnxx.com/video-14lcwbe8/rubia_novia_follada_en_cuarto_de_bano*`;
+  if (!db.data.chats[m.chat].nsfw && m.isGroup) {
+    return conn.reply(m.chat, `${emoji} El contenido *NSFW* está desactivado en este grupo.\n> Un administrador puede activarlo con el comando » *#nsfw*`, m);
+  }
+  
+  if (!args[0]) {
+    return conn.reply(m.chat, `${emoji} Por favor, envía un link de Xnxx para descargar el video.\nUso: ${usedPrefix}${command} <link de Xnxx>`, m);
+  }
+  
   try {
-    await conn.reply(m.chat, '[❗] 𝐸𝑙 𝑣𝑖𝑑𝑒𝑜 𝑒𝑠𝑡𝑎 𝑠𝑖𝑒𝑛𝑑𝑜 𝑝𝑟𝑜𝑐𝑒𝑠𝑎𝑑𝑜, 𝑒𝑠𝑝𝑒𝑟𝑒 𝑢𝑛 𝑚𝑜𝑚𝑒𝑛𝑡𝑜 𝑒𝑛 𝑙𝑜 𝑞𝑢𝑒 𝑒𝑠 𝑒𝑛𝑣𝑖𝑎𝑑𝑜..\n\n﹣ ᴇʟ ᴛɪᴇᴍᴘᴏ ᴅᴇ ᴇɴᴠɪᴏ ᴅᴇᴘᴇɴᴅᴇ ᴅᴇʟ ᴘᴇsᴏ ʏ ᴅᴜʀᴀᴄɪᴏ́ɴ ᴅᴇʟ ᴠɪᴅᴇᴏ', m, rcanal);
+    await conn.reply(m.chat, `${emoji} El vídeo está siendo procesado, espere un momento...\n\n- El tiempo de envío depende del peso y duración del video.`, m);
     let xnxxLink = '';
+    
     if (args[0].includes('xnxx')) {
       xnxxLink = args[0];
     } else {
@@ -22,26 +25,30 @@ if (!db.data.chats[m.chat].nsfw && m.isGroup) {
             if (index < matchingItem.urls.length) {
               xnxxLink = matchingItem.urls[index];
             } else {
-              throw `[❗] 𝙽𝙾 𝚂𝙴 𝙴𝙽𝙲𝙾𝙽𝚃𝚁𝙾 𝚄𝙽 𝙴𝙽𝙻𝙰𝙲𝙴 𝙿𝙰𝚁𝙰 𝙴𝚂𝙴 𝙽𝚄𝙼𝙴𝚁𝙾, 𝙿𝙾𝚁 𝙵𝙰𝚅𝙾𝚁 𝙸𝙽𝙶𝚁𝙴𝚂𝙴 𝚄𝙽 𝙽𝚄𝙼𝙴𝚁𝙾 𝙴𝙽𝚃𝚁𝙴 𝙴𝙻 1 𝚈 𝙴𝙻 ${matchingItem.urls.length}*`;
+              throw `${emoji2} No se encontró un enlace para ese número, por favor ingrese un número entre el 1 y el ${matchingItem.urls.length}.`;
             }
           } else {
-            throw `*[❗] 𝙿𝙰𝚁𝙰 𝙿𝙾𝙳𝙴𝚁 𝚄𝚂𝙰𝚁 𝙴𝚂𝚃𝙴 𝙲𝙾𝙼𝙰𝙽𝙳𝙾 𝙳𝙴 𝙴𝚂𝚃𝙰 𝙵𝙾𝚁𝙼𝙰 (${usedPrefix + command} <numero>), 𝙿𝙾𝚁 𝙵𝙰𝚅𝙾𝚁 𝚁𝙴𝙰𝙻𝙸𝚉𝙰 𝙻𝙰 𝙱𝚄𝚂𝚀𝚄𝙴𝙳𝙰 𝙳𝙴 𝚅𝙸𝙳𝙴𝙾𝚂 𝙲𝙾𝙽 𝙴𝙻 𝙲𝙾𝙼𝙰𝙽𝙳𝙾 ${usedPrefix}xnxxsearch <texto>*`;
+            throw `${emoji2} Para poder usar este comando de esta forma (${usedPrefix + command} <numero>), por favor realiza la búsqueda con el comando ${usedPrefix}xnxxsearch <texto>`;
           }
         } else {
-          throw `*[❗] 𝙿𝙰𝚁𝙰 𝙿𝙾𝙳𝙴𝚁 𝚄𝚂𝙰𝚁 𝙴𝚂𝚃𝙴 𝙲𝙾𝙼𝙰𝙽𝙳𝙾 𝙳𝙴 𝙴𝚂𝚃𝙰 𝙵𝙾𝚁𝙼𝙰 (${usedPrefix + command} <numero>), 𝙿𝙾𝚁 𝙵𝙰𝚅𝙾𝚁 𝚁𝙴𝙰𝙻𝙸𝚉𝙰 𝙻𝙰 𝙱𝚄𝚂𝚀𝚄𝙴𝙳𝙰 𝙳𝙴 𝚅𝙸𝙳𝙴𝙾𝚂 𝙲𝙾𝙽 𝙴𝙻 𝙲𝙾𝙼𝙰𝙽𝙳𝙾 ${usedPrefix}xnxxsearch <texto>*`;
+          throw `${emoji2} Para poder usar este comando de esta (${usedPrefix + command} <numero>), por favor realiza la búsqueda con el comando ${usedPrefix}xnxxsearch <texto>`;
         }
       }
     }
+
     const res = await xnxxdl(xnxxLink);
     const json = await res.result.files;
     conn.sendMessage(m.chat, {document: {url: json.high}, mimetype: 'video/mp4', fileName: res.result.title}, {quoted: m});
-  } catch {
-    throw `*[❗𝐈𝐍𝐅𝐎❗] 𝙴𝚁𝚁𝙾𝚁, 𝙿𝙾𝚁 𝙵𝙰𝚅𝙾𝚁 𝚅𝚄𝙴𝙻𝚅𝙰 𝙰 𝙸𝙽𝚃𝙴𝙽𝚃𝙰𝚁𝙻𝙾*\n\n*- 𝙲𝙾𝚁𝚁𝙾𝙱𝙾𝚁𝙴 𝚀𝚄𝙴 𝙴𝙻 𝙴𝙽𝙻𝙰𝙲𝙴 𝚂𝙴𝙰 𝚂𝙸𝙼𝙸𝙻𝙰𝚁 𝙰:\n*◉ https://www.xnxx.com/video-14lcwbe8/rubia_novia_follada_en_cuarto_de_bano*`;
+  } catch (error) {
+    return conn.reply(m.chat, `${msm} Ocurrió un error.\n\n- El enlace debe ser similar a:\n◉ https://www.xnxx.com/video-14lcwbe8/rubia_novia_follada_en_cuarto_de_bano\n\nDetalles del error: ${error}`, m);
   }
 };
+
 handler.command = ['xnxxdl'];
 handler.register = true;
 handler.group = false;
+handler.coin = 10;
+
 export default handler;
 
 async function xnxxdl(URL) {
@@ -63,7 +70,8 @@ async function xnxxdl(URL) {
         thumb: videoScript.match('html5player.setThumbUrl\\(\'(.*?)\'\\);' || [])[1],
         thumb69: videoScript.match('html5player.setThumbUrl169\\(\'(.*?)\'\\);' || [])[1],
         thumbSlide: videoScript.match('html5player.setThumbSlide\\(\'(.*?)\'\\);' || [])[1],
-        thumbSlideBig: videoScript.match('html5player.setThumbSlideBig\\(\'(.*?)\'\\);' || [])[1]};
+        thumbSlideBig: videoScript.match('html5player.setThumbSlideBig\\(\'(.*?)\'\\);' || [])[1]
+      };
       resolve({status: 200, result: {title, URL, duration, image, videoType, videoWidth, videoHeight, info, files}});
     }).catch((err) => reject({code: 503, status: false, result: err}));
   });

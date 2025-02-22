@@ -1,5 +1,5 @@
 const handler = async (m, { conn, command, text, usedPrefix }) => {
-  if (!text) return conn.reply(m.chat, `💜 Mensiona a un Usuario.`, m, rcanal, );
+  if (!text) return conn.reply(m.chat, `🍬 Por favor, mensiona a un Usuario para comprobar su test.`, m);
   const percentages = (500).getRandom();
   let emoji = '';
   let description = '';
@@ -79,7 +79,7 @@ const handler = async (m, { conn, command, text, usedPrefix }) => {
       }
       break;
       default:
-      m.reply(`☁️ Comando inválido.`);
+      m.reply(`🍭 Comando inválido.`);
   }
   const responses = [
     "El universo ha hablado.",
@@ -114,4 +114,5 @@ handler.tags = ['fun'];
 handler.register = true;
 handler.group = true;
 handler.command = ['gay', 'lesbiana', 'pajero', 'pajera', 'puto', 'puta', 'manco', 'manca', 'rata', 'prostituta', 'prostituto'];
+
 export default handler;

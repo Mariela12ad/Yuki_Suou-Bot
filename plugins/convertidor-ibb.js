@@ -9,7 +9,7 @@ let handler = async (m, { conn }) => {
   let mime = (q.msg || q).mimetype || ''
   
   if (!mime.startsWith('image/')) {
-    return m.reply('✍️ Responde a una *Imagen.*')
+    return m.reply(`${emoji} Por favor, responda a una *Imagen.*`)
   }
   await m.react('🕓')
 
@@ -33,8 +33,8 @@ let handler = async (m, { conn }) => {
         txt += `  *» File* : ${q.filename || 'x.jpg'}\n`
         txt += `  *» Extension* : ${api.data.data.image.extension}\n`
         txt += `  *» Delete* : ${api.data.data.delete_url}\n\n`
-        txt += `🚩 *${textbot}*`
-    await conn.sendFile(m.chat, api.data.data.url, 'ibb.jpg', txt, m, null, rcanal)
+        txt += `> *${dev}*`
+    await conn.sendFile(m.chat, api.data.data.url, 'ibb.jpg', txt, m, fkontak)
     await m.react('✅')
   } else {
     await m.react('✖️')
@@ -42,6 +42,6 @@ let handler = async (m, { conn }) => {
 }
 handler.tags = ['transformador']
 handler.help = ['ibb']
-handler.command = /^(ibb)$/i
+handler.command = ['ibb', 'tourl3']
 handler.register = true 
 export default handler

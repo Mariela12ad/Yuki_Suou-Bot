@@ -2,7 +2,7 @@ import { exec } from 'child_process';
 import fs from 'fs';
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
-  if (!text) return m.reply(`\`[ 🌹 ] Ingresa el nombre de un paquete de NPMJs. Ejemplo: ${usedPrefix + command} yt-search,version (opcional)\``);
+  if (!text) return m.reply(`${emoji} Por favor, ingresa el nombre de un paquete de NPMJs y versión (opcional).`);
 
   async function npmdownloader(pkg, pkgver) {
     try {
@@ -59,5 +59,8 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 handler.help = ["npmdl"];
 handler.tags = ["descargas"];
 handler.command = ["npmdownloader", "npmdownload", "npmpkgdownloader", "npmpkgdownload", "npmdl", "npmd"];
+handler.group = false;
+handler.register = true;
+handler.coin = 5;
 
 export default handler;

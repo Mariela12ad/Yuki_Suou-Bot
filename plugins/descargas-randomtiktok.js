@@ -19,9 +19,11 @@ m.reply(eror)
 }
 handler.help = ['tiktokrandom']
 handler.tags = ['descargas']
-handler.command = /^(tiktokrandom|ttrandom)$/i
+handler.command = ['ttrandom', 'tiktokrandom']
 handler.limit = true 
-handler.register = true
+handler.group = true;
+handler.register = true;
+handler.coin = 2;
 
 export default handler
 

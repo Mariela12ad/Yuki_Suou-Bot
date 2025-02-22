@@ -5,9 +5,8 @@ import axios from 'axios';
 import cheerio from 'cheerio';
 
 let handler = async (m, { conn, text, args, command, usedPrefix }) => {
-    if (!text) throw m.reply('*\`Ingresa El link De la imagen a descargar ✨\`*')
+    if (!text) throw m.reply(`${emoji} Por favor, ingresa el link de la imagen de tiktok a descargar.`)
 
-    // Cambie la URL principal y la URL de respaldo según sea necesario
     let mainUrl = `https://dlpanda.com/id?url=${text}&token=G7eRpMaa`;
     let backupUrl = `https://dlpanda.com/id?url=${text}&token51=G32254GLM09MN89Maa`;
     let creator = 'KenisawaDev';
@@ -76,7 +75,7 @@ let handler = async (m, { conn, text, args, command, usedPrefix }) => {
         }
 
         if (asd[0].imgSrc.length === 0) {
-            throw '⭕ ɴᴏ ʜᴀʏ ɪᴍᴀɢᴇɴ';
+            throw `${emoji2} No se encontraron resultados...`;
         }
         await m.react('🕓');
         for (let i of asd[0].imgSrc) {
@@ -96,6 +95,9 @@ let handler = async (m, { conn, text, args, command, usedPrefix }) => {
 
 handler.help = ['tiktokimg <url>']
 handler.tags = ['descargas']
-handler.command = /^(ttimg|tiktokimg)$/i
+handler.command = ['tiktokimg', 'ttimg']
+handler.group = true
+handler.register = true
+handler.coin = 2
 
 export default handler

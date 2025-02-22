@@ -1,19 +1,14 @@
-//import db from '../lib/database.js'
+const handler = async (m, {text}) => {
+const user = global.db.data.users[m.sender];
+user.afk = + new Date;
+user.afkReason = text;
+conn.reply(m.chat, `${emoji} *El Usuario ${conn.getName(m.sender)} Estará Inactivo*\n\n*Motivo: ${text ? ': ' + text : 'Sin Especificar!'}*
+`, m);
+};
+handler.help = ['afk [alasan]'];
+handler.tags = ['main'];
+handler.command = ['afk'];
+handler.group = true;
+handler.register = true;
 
-let handler = async (m, { text, conn }) => {
-    let user = global.db.data.users[m.sender]
-    user.afk = + new Date
-    user.afkReason = text
-    m.reply(`
-  😴 *AFK* 
-Ahora estás enfadado hasta que envíes un mensaje 
-👤 *Usuario:* ${conn.getName(m.sender)} 
-💬 *Razon:* ${text ? text : ''}
-  `)
-}
-handler.help = ['afk <razon>']
-handler.tags = ['fun']
-handler.command = ['afk']
-handler.group = true
-
-export default handler
+export default handler;

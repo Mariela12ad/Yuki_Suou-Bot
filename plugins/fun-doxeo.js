@@ -18,14 +18,13 @@ var handler = async (m, { conn, text }) => {
         who = m.chat;
     }
 
-    if (!who) return conn.reply(m.chat, '🗣️ *Ingrese el tag de algún usuario o responda a un mensaje*', m);
+    if (!who) return conn.reply(m.chat, `${emoji} Por favor, ingrese el tag de algún usuario o responda a un mensaje.`, m);
 
-    // Si no se obtuvo el nombre del usuario, usar el texto proporcionado
     if (!userName) {
         userName = text || 'Usuario desconocido';
     }
 
-    let start = `👨‍💻 *Iniciando doxeo* 👨‍💻`;
+    let start = `🧑‍💻 *Iniciando doxeo*...`;
     let boost = `*${pickRandom(['0','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20'])}%*`;
     let boost2 = `*${pickRandom(['21','22','23','24','25','26','27','28','29','30','31','32','33','34','35','36','37','38','39','40'])}%*`;
     let boost3 = `*${pickRandom(['41','42','43','44','45','46','47','48','49','50','51','52','53','54','55','56','57','58','59','60'])}%*`;
@@ -97,7 +96,6 @@ Sof02s32inf14.1e100.net
 handler.help = ['doxear'];
 handler.tags = ['fun'];
 handler.command = ['doxear', 'doxxeo', 'doxeo'];
-
 handler.register = true;
 handler.group = true;
 

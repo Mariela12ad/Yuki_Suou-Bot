@@ -3,29 +3,28 @@ import axios from 'axios';
 import cheerio from 'cheerio';
 
 const handler = async (m, { conn, args, command, usedPrefix, text }) => {
-    // Verificar si el comando NSFW está habilitado en el grupo
-    if (!db.data.chats[m.chat].nsfw && m.isGroup) {
-        return m.reply('[❗] 𝐋𝐨𝐬 𝐜𝐨𝐦𝐚𝐧𝐝𝐨𝐬 +𝟏𝟖 𝐞𝐬𝐭𝐚́𝐧 𝐝𝐞𝐬𝐚𝐜𝐭𝐢𝐯𝐚𝐝𝐨𝐬 𝐞𝐧 𝐞𝐬𝐭𝐞 𝐠𝐫𝐮𝐩𝐨.\n> 𝐬𝐢 𝐞𝐬 𝐚𝐝𝐦𝐢𝐧 𝐲 𝐝𝐞𝐬𝐞𝐚 𝐚𝐜𝐭𝐢𝐯𝐚𝐫𝐥𝐨𝐬 𝐮𝐬𝐞 .enable nsfw');
+if (!db.data.chats[m.chat].nsfw && m.isGroup) {
+    return m.reply(`${emoji} El contenido *NSFW* está desactivado en este grupo.\n> Un administrador puede activarlo con el comando » *#nsfw*`);
     }
 
-    // Verificar si se recibió un argumento (enlace)
     if (!args[0]) {
-        return conn.reply(m.chat, `*[❗𝐈𝐍𝐅𝐎❗]*\n\n📝 *Instrucciones:* \nPara descargar un video de Xvideos, por favor ingresa un enlace válido.\nEjemplo: \n*${usedPrefix + command} https://www.xvideos.com/video70389849/pequena_zorra_follada_duro*`, m);
+        return conn.reply(m.chat, `${emoji} Por favor, envia un link de Xvideos para descargar el video.`, m);
     }
 
     try {
-        conn.reply(m.chat, `[❗] 𝐸𝑙 𝑣𝑖𝑑𝑒𝑜 𝑒𝑠𝑡𝑎 𝑠𝑖𝑒𝑛𝑑𝑜 𝑝𝑟𝑜𝑐𝑒𝑠𝑎𝑑𝑜, 𝑒𝑠𝑝𝑒𝑟𝑒 𝑢𝑛 𝑚𝑜𝑚𝑒𝑛𝑡𝑜 𝑒𝑛 𝑙𝑜 𝑞𝑢𝑒 𝑒𝑠 𝑒𝑛𝑣𝑖𝑎𝑑𝑜.. \n\n﹣ ᴇʟ ᴛɪᴇᴍᴘᴏ ᴅᴇ ᴇɴᴠɪᴏ ᴅᴜᴇɴᴛᴇ ᴅᴇʟ ᴘᴇsᴏ ʏ ᴅᴜʀᴀᴄɪᴏ́ɴ ᴅᴇʟ ᴠɪᴅᴇᴏ`, m);
+        conn.reply(m.chat, `${emoji2} El vídeo está siendo procesado, espere un momento...\n\n- El tiempo de envio depende del peso y duración del video.`, m);
         
         const res = await xvideosdl(args[0]);
         conn.sendMessage(m.chat, { document: { url: res.result.url }, mimetype: 'video/mp4', fileName: res.result.title }, { quoted: m });
     } catch (e) {
-        throw `*[❗𝐈𝐍𝐅𝐎❗] 𝙴𝚁𝚁𝙾𝚁, 𝙿𝙾𝚁 𝙵𝙰𝚅𝙾𝚁 𝚅𝚄𝙴𝙻𝚅𝙰 𝙰 𝙸𝙽𝚃𝙴𝙽𝚃𝙰𝚁𝙻𝙾*\n\n*- 𝙲𝙾𝚁𝚁𝙾𝙱𝙾𝚁𝙴 𝚀𝚄𝙴 𝙴𝙻 𝙴𝙽𝙻𝙰𝙲𝙴 𝚂𝙴𝙰 𝚂𝙸𝙼𝙸𝙻𝙰𝚁 𝙰:*\n*◉ https://www.xvideos.com/video70389849/pequena_zorra_follada_duro*`;
+        throw `${msm} Ocurrio un error.\n\n- El enlace debe ser similar a:\n◉ https://www.xvideos.com/video70389849/pequena_zorra_follada_duro`;
     }
 };
 
 handler.command = ['xvideosdl'];
 handler.register = true;
 handler.group = false;
+handler.coin = 10;
 
 export default handler;
 

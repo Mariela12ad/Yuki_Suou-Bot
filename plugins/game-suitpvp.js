@@ -4,27 +4,38 @@ const poin_lose = -100;
 const poin_bot = 200;
 const handler = async (m, {conn, usedPrefix, text}) => {
   conn.suit = conn.suit ? conn.suit : {};
-  if (Object.values(conn.suit).find((room) => room.id.startsWith('suit') && [room.p, room.p2].includes(m.sender))) throw '*[❗] 𝚃𝙴𝚁𝙼𝙸𝙽𝙰 𝚃𝚄 𝙿𝙰𝚁𝚃𝙸𝙳𝙰 𝙰𝙽𝚃𝙴𝚂 𝙳𝙴 𝙸𝙽𝙲𝙸𝙰𝚁 𝙾𝚃𝚁𝙰*';
-  const textquien = `*𝙰 𝚀𝚄𝙸𝙴𝙽 𝚀𝚄𝙸𝙴𝚁𝙴𝚂 𝙳𝙴𝚂𝙰𝙵𝙸𝙰𝚁? 𝙴𝚃𝙸𝚀𝚄𝙴𝚃𝙰 𝙰 𝚄𝙽𝙰 𝙿𝙴𝚁𝚂𝙾𝙽𝙰*\n\n*—◉ 𝙴𝙹𝙴𝙼𝙿𝙻𝙾:*\n${usedPrefix}suit @${global.suittag}`;
-  if (!m.mentionedJid[0]) return m.reply(textquien, m.chat, {mentions: conn.parseMention(textquien)});
-  if (Object.values(conn.suit).find((room) => room.id.startsWith('suit') && [room.p, room.p2].includes(m.mentionedJid[0]))) throw `*[❗] 𝙻𝙰 𝙿𝙴𝚁𝚂𝙾𝙽𝙰 𝙰 𝙻𝙰 𝚀𝚄𝙴 𝚀𝚄𝙸𝙴𝚁𝙴𝚂 𝙳𝙴𝚂𝙰𝙵𝙸𝙰𝚁 𝙰𝚄𝙽 𝙴𝚂𝚃𝙰 𝙹𝚄𝙶𝙰𝙽𝙳𝙾 𝙾𝚃𝚁𝙰 𝙿𝙰𝚁𝚃𝙸𝙳𝙰, 𝙴𝚂𝙿𝙴𝚁𝙰 𝙰 𝚀𝚄𝙴 𝚃𝙴𝚁𝙼𝙸𝙽𝙴 𝙳𝙴 𝙹𝚄𝙶𝙰𝚁`;
+  
+  const userToChallenge = m.mentionedJid[0] || (m.replyMessage && m.replyMessage.sender);
+  
+  if (Object.values(conn.suit).find((room) => room.id.startsWith('suit') && [room.p, room.p2].includes(m.sender))) throw `${emoji2} Termina tu partida antes de iniciar otra.`;
+  
+  const textquien = `${emoji} A quién quieres desafiar? etiqueta a un usuario.\n\n*—◉ Ejemplo:*\n${usedPrefix}suit @tag`;
+  
+  if (!userToChallenge) return m.reply(textquien, m.chat, {mentions: conn.parseMention(textquien)});
+  
+  if (Object.values(conn.suit).find((room) => room.id.startsWith('suit') && [room.p, room.p2].includes(userToChallenge))) throw `${emoji2} El usuario aun esta en una partida, espera a que termine para jugar.`;
+  
   const id = 'suit_' + new Date() * 1;
-  const caption = `🎮 𝙶𝙰𝙼𝙴𝚂 - 𝙿𝚅𝙿 - 𝙶𝙰𝙼𝙴𝚂 🎮\n\n—◉ @${m.sender.split`@`[0]} 𝙳𝙴𝚂𝙰𝙵𝙸𝙰 𝙰 @${m.mentionedJid[0].split`@`[0]} 𝙰 𝙴𝙽 𝚄𝙽 𝙿𝚅𝙿 𝙳𝙴 𝙿𝙸𝙴𝙳𝚁𝙰, 𝙿𝙰𝙿𝙴𝙻 𝙾 𝚃𝙸𝙹𝙴𝚁𝙰\n◉ 𝙴𝚂𝙲𝚁𝙸𝙱𝙴 "aceptar" 𝙿𝙰𝚁𝙰 𝙰𝙲𝙴𝙿𝚃𝙰𝚁\n◉ 𝙴𝚂𝙲𝚁𝙸𝙱𝙴 "rechazar" 𝙿𝙰𝚁𝙰 𝚁𝙴𝙲𝙷𝙰𝚉𝙰𝚁\nrespondiendo al mensaje`;
+  const caption = `🎮 Games - PVP - Games 🎮\n\n—◉ @${m.sender.split`@`[0]} Desafio @${userToChallenge.split`@`[0]} a un PVP de piedra, papel o tijera\n◉ Escribe "aceptar" para aceptar\n◉ Escribe "rechazar" para rechazar\nrespondiendo al mensaje`;
   const imgplaygame = `https://www.merca2.es/wp-content/uploads/2020/05/Piedra-papel-o-tijera-0003318_1584-825x259.jpeg`;
+  
   conn.suit[id] = {
-    chat: await conn.sendMessage(m.chat, {text: caption}, {mentions: await conn.parseMention(caption)}),
+    chat: await conn.sendMessage(m.chat, {text: caption, mentions: [m.sender, userToChallenge]}, {caption}),
     id: id,
     p: m.sender,
-    p2: m.mentionedJid[0],
+    p2: userToChallenge,
     status: 'wait',
     waktu: setTimeout(() => {
-      if (conn.suit[id]) conn.reply(m.chat, `[ ⏳ ] 𝚃𝙸𝙴𝙼𝙿𝙾 𝙳𝙴 𝙴𝚂𝙿𝙴𝚁𝙰 𝙵𝙸𝙽𝙰𝙻𝙸𝚉𝙰𝙳𝙾, 𝙴𝙻 𝙿𝚅𝙿 𝚂𝙴 𝙲𝙰𝙽𝙲𝙴𝙻𝙾 𝙿𝙾𝚁 𝙵𝙰𝙻𝚃𝙰 𝙳𝙴 𝚁𝙴𝚂𝙿𝚄𝙴𝚂𝚃𝙰`, m);
-
+      if (conn.suit[id]) conn.reply(m.chat, `${emoji2} Tiempo de espera finalizado, el PVP se cancela por falta de respuesta.`, m);
       delete conn.suit[id];
-    }, timeout), poin, poin_lose, poin_bot, timeout,
+    }, timeout),
+    poin, poin_lose, poin_bot, timeout,
   };
 };
-handler.command = /^pvp|suit(pvp)?$/i;
+
+handler.command = ['suitpvp', 'pvp', 'suit'];
 handler.group = true;
+handler.register = true;
 handler.game = true;
+
 export default handler;

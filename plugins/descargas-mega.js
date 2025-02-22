@@ -1,20 +1,18 @@
 import { File } from "megajs";
 import path from "path";
 
-const botName = 'Descarga de MEGA'; // Define el nombre de tu bot aquí
-
 let handler = async (m, { conn, args, usedPrefix, text, command }) => {
     try {
-        if (!text) return conn.reply(m.chat, `\`\`\`[ 🌹 ] Uso correcto del comando:\`\`\` ${usedPrefix + command} https://mega.nz/file/ovJTHaQZ#yAbkrvQgykcH_NDKQ8eIc0zvsN7jonBbHZ_HTQL6lZ8`, null, { quoted: fkontak });
+        if (!text) return conn.reply(m.chat, `${emoji} Por favor, envia un link de MEGA para descargar el archivo.`, null, { quoted: fkontak });
 
         const file = File.fromURL(text);
         await file.loadAttributes();
 
-        if (file.size >= 300000000) return m.reply('Error: El archivo es demasiado pesado (Peso máximo: 300MB ( Premium: 800MB )');
+        if (file.size >= 300000000) return m.reply('✘ Error: El archivo es demasiado pesado (Peso máximo: 300MB ( Premium: 800MB )');
 
         m.react(rwait);
 
-        const caption = `   *--- ${botName} ---*\nFile: ${file.name}\nSize: ${formatBytes(file.size)}\n> ৎ୭࠭͢𝒴𝓊𝓀𝒾_𝒮𝓊𝑜𝓊-𝐵𝑜𝑡𝐭ⷭ𓆪͟͞ `;
+        const caption = `   *✿--- Descargas de MEGA ---✿*\n✐ File: ${file.name}\n✧ Size: ${formatBytes(file.size)}`;
 
         const data = await file.downloadBuffer();
 
@@ -35,15 +33,16 @@ let handler = async (m, { conn, args, usedPrefix, text, command }) => {
         await conn.sendFile(m.chat, data, file.name, caption, m, null, { mimetype, asDocument: true });
 
     } catch (error) {
-        return m.reply(`Error: ${error.message}`);
+        return m.reply(`${msm} Ocurrió un error: ${error.message}`);
     }
 }
 
 handler.help = ["mega"];
 handler.tags = ["descargas"];
-handler.command = /^(mega)$/i;
-handler.register = true
-handler.group = true
+handler.command = ['mega', 'mg']
+handler.group = true;
+handler.register = true;
+handler.coin = 5;
 
 export default handler;
 
