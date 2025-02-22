@@ -12,7 +12,7 @@ let handler = async (m, { conn }) => {
 
 handler.help = ['ppcouple']
 handler.tags = ['anime']
-handler.command = /^(ppcouple|ppcp)$/i
+handler.command = ['ppcp', 'ppcouple']
 handler.limit = false
 handler.register = true
 

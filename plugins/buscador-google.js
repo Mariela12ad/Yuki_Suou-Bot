@@ -1,36 +1,38 @@
-import axios from 'axios';
+import fetch from 'node-fetch';
 
-let handler = async (m, { conn, command, args }) => {
-  const text = args.join(' ');
-  if (!text) return conn.reply(m.chat, '🌸 *Ingresa lo que deseas buscar junto al comando.*', m);
+let handler = async (m, { text }) => {
+  if (!text) {
+    m.reply(`${emoji} Por favor, proporciona el termino de búsqueda que deseas realizar a *Google*.`);
+    return;
+  }
 
-  await m.react('🕓');
-  let img = 'https://i.ibb.co/P5kZNFF/file.jpg';
+  const apiUrl = `https://delirius-apiofc.vercel.app/search/googlesearch?query=${encodeURIComponent(text)}`;
 
   try {
-    const apiResponse = await axios.get(`https://api.dorratz.com/v2/google-search?q=${encodeURIComponent(text)}`);
+    const response = await fetch(apiUrl);
+    const result = await response.json();
 
-    if (apiResponse.data && apiResponse.data.results && Array.isArray(apiResponse.data.results) && apiResponse.data.results.length > 0) {
-      const results = apiResponse.data.results;
-
-      let teks = ` *乂  S E A R C H  -  G O O G L E*\n\n`;
-      for (let g of results) {
-        teks += `*${g.title}*\n${g.link}\n\n`;
-      }
-
-      conn.sendFile(m.chat, img, 'thumbnail.jpg', teks, m).then(() => m.react('✅'));
-    } else {
-      conn.reply(m.chat, '🔍 *No se encontraron resultados.*', m);
+    if (!result.status) {
+      m.reply('Error al realizar la búsqueda.');
+      return;
     }
+
+    let replyMessage = `${emoji2} Resultados de la búsqueda:\n\n`;
+    result.data.slice(0, 1).forEach((item, index) => {
+      replyMessage += `☁️ *${index + 1}. ${item.title}*\n`;
+      replyMessage += `📰 *${item.description}*\n`;
+      replyMessage += `🔗 URL: ${item.url}`;
+    });
+
+m.react('✅')
+
+    m.reply(replyMessage);
   } catch (error) {
-    console.error(error);
-    conn.reply(m.chat, '⚠️ *Ocurrió un error al realizar la búsqueda: ' + error.message + '*', m);
+    console.error(`${msm} Error al realizar la solicitud a la API:`, error);
+    m.reply(`${msm} Ocurrió un error al obtener los resultados.`);
   }
 };
 
-handler.help = ['google *<texto>*'];
-handler.tags = ['buscador'];
-handler.command = /^google?$/i;
-handler.register = true;
+handler.command = ['google'];
 
 export default handler;

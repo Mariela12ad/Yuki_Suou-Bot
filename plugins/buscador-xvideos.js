@@ -4,19 +4,19 @@ import cheerio from 'cheerio';
 
 const handler = async (m, { conn, args, command, usedPrefix }) => {
     if (!db.data.chats[m.chat].nsfw && m.isGroup) {
-    return m.reply('*[❗] 𝐋𝐨𝐬 𝐜𝐨𝐦𝐚𝐧𝐝𝐨𝐬 +𝟏𝟖 𝐞𝐬𝐭𝐚́𝐧 𝐝𝐞𝐬𝐚𝐜𝐭𝐢𝐯𝐚𝐝𝐨𝐬 𝐞𝐧 𝐞𝐬𝐭𝐞 𝐠𝐫𝐮𝐩𝐨.*\n> 𝐬𝐢 𝐞𝐬 𝐚𝐝𝐦𝐢𝐧 𝐲 𝐝𝐞𝐬𝐞𝐚 𝐚𝐜𝐭𝐢𝐯𝐚𝐫𝐥𝐨𝐬 𝐮𝐬𝐞 .enable nsfw');
+    return m.reply(`${emoji} El contenido *NSFW* está desactivado en este grupo.\n> Un administrador puede activarlo con el comando » *#nsfw*`);
     }
     if (!args[0]) {
-        return conn.reply(m.chat, `*[❗𝐈𝐍𝐅𝐎❗]*\n\n🌼 *Instrucciones:* \nPara buscar videos en Xvideos, por favor ingresa un término de búsqueda.\nEjemplo: \n*${usedPrefix + command} perro*`, m);
+        return conn.reply(m.chat, `${emoji} Por favor, ingresé la búsqueda que desea realizar en Xvideos.\nEjemplo: ${usedPrefix + command} zorritas.`, m);
     }
 
     try {
         const results = await xvideosSearch(args.join(' '));
         if (results.length === 0) {
-            return conn.reply(m.chat, `*[❗𝐈𝐍𝐅𝐎❗]*\nNo se encontraron resultados para: *${args.join(' ')}*`, m);
+            return conn.reply(m.chat, `${emoji2} No se encontraron resultados para: *${args.join(' ')}*`, m);
         }
 
-        let responseMessage = `🌸 *Resultados de búsqueda para:* *${args.join(' ')}*\n\n`;
+        let responseMessage = `${emoji} *Resultados de búsqueda para:* *${args.join(' ')}*\n\n`;
         results.forEach((video, index) => {
             responseMessage += `☁️ *Título:* ${video.title}\n`;
             responseMessage += `🕒 *Duración:* ${video.duration}\n`;
@@ -27,7 +27,7 @@ const handler = async (m, { conn, args, command, usedPrefix }) => {
         conn.reply(m.chat, responseMessage, m);
     } catch (e) {
         console.error(e);
-        return conn.reply(m.chat, `*[❗𝐈𝐍𝐅𝐎❗]*\nOcurrió un error al buscar videos. Por favor, intenta de nuevo más tarde.`, m);
+        return conn.reply(m.chat, `${msm} Ocurrió un error al buscar videos. Por favor, intenta de nuevo más tarde.`, m);
     }
 };
 

@@ -2,25 +2,25 @@ import cheerio from 'cheerio';
 import axios from 'axios';
 const handler = async (m, {conn, text, __dirname, usedPrefix, command}) => {
 if (!db.data.chats[m.chat].nsfw && m.isGroup) {
-    return m.reply('[❗] 𝐋𝐨𝐬 𝐜𝐨𝐦𝐚𝐧𝐝𝐨𝐬 +𝟏𝟖 𝐞𝐬𝐭𝐚́𝐧 𝐝𝐞𝐬𝐚𝐜𝐭𝐢𝐯𝐚𝐝𝐨𝐬 𝐞𝐧 𝐞𝐬𝐭𝐞 𝐠𝐫𝐮𝐩𝐨.\n> 𝐬𝐢 𝐞𝐬 𝐚𝐝𝐦𝐢𝐧 𝐲 𝐝𝐞𝐬𝐞𝐚 𝐚𝐜𝐭𝐢𝐯𝐚𝐫𝐥𝐨𝐬 𝐮𝐬𝐞 .enable nsfw');
+    return m.reply(`${emoji} El contenido *NSFW* está desactivado en este grupo.\n> Un administrador puede activarlo con el comando » *#nsfw*`);
     }
-  if (!text) throw '*[❗] 𝙸𝙽𝙶𝚁𝙴𝚂𝙰 𝙴𝙻 𝙽𝙾𝙼𝙱𝚁𝙴 𝙳𝙴 𝙰𝙻𝙶𝚄𝙽 𝙷𝙴𝙽𝚃𝙰𝙸 𝙰 𝙱𝚄𝚂𝙲𝙰𝚁*';
+  if (!text) throw `${emoji} Por favo, ingresa el nombre de algun hentai para buscar.`;
   const searchResults = await searchHentai(text);
   let teks = searchResults.result.map((v, i) => `
 ${i+1}. *_${v.title}_*
-↳ 📺 *_Vistas:_* ${v.views}
-↳ 🎞️ *_Link:_* ${v.url}`).join('\n\n');
+↳ 👀 *_Vistas:_* ${v.views}
+↳ 🔗 *_Link:_* ${v.url}`).join('\n\n');
   let randomThumbnail;
   if (searchResults.result.length > 0) {
     const randomIndex = Math.floor(Math.random() * searchResults.result.length);
     randomThumbnail = searchResults.result[randomIndex].thumbnail;
   } else {
     randomThumbnail = 'https://pictures.hentai-foundry.com/e/Error-Dot/577798/Error-Dot-577798-Zero_Two.png';
-    teks = '*[❗] 𝙽𝙾 𝚂𝙴 𝙷𝙰𝙽 𝙴𝙽𝙲𝙾𝙽𝚃𝚁𝙰𝙳𝙾 𝚁𝙴𝚂𝚄𝙻𝚃𝙰𝙳𝙾𝚂*';
+    teks = `${emoji2} No se encontraron resultados.,.`;
   }
   conn.sendFile(m.chat, randomThumbnail, 'error.jpg', teks, m);
 };
-handler.command = /^(hentaisearch|searchhentai)$/i;
+handler.command = ['searchhentai', 'hentaisearch']
 export default handler;
 async function searchHentai(search) {
   return new Promise((resolve, reject) => {
