@@ -1,13 +1,13 @@
 let handler = async (m, { usedPrefix, command }) => {
 let uptime = await process.uptime()
-let runtime = `${global.packname}
+let runtime = `${packname}
 
-✰ 𝗧𝗶𝗲𝗺𝗽𝗼 𝗔𝗰𝘁𝗶𝘃𝗼: ${rTime(uptime)}`
-conn.reply(m.chat, runtime, m, { contextInfo: { externalAdReply: { mediaUrl: false, mediaType: 1, description: false, title: packname, body: '🌸 ৎ୭࠭͢𝒴𝓊𝓀𝒾_𝒮𝓊𝑜𝓊-𝐵𝑜𝓉𝐭ⷭ𓆪͟͞ ', previewType: 0, thumbnail: icons, sourceUrl: channel}}})
+✰ Tiempo activo: ${rTime(uptime)}`
+conn.reply(m.chat, runtime, m)
 }
 handler.help = ['runtime']
 handler.tags = ['main']
-handler.command = /^(uptime|runtime)$/i
+handler.command = ['runtime', 'uptime']
 
 export default handler
 

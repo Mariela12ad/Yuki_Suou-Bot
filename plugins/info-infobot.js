@@ -21,7 +21,7 @@ let totalStats = Object.values(global.db.data.stats).reduce((total, stat) => tot
 const chats = Object.entries(conn.chats).filter(([id, data]) => id && data.isChats)
 let totalchats = Object.keys(global.db.data.chats).length
 let totalf = Object.values(global.plugins).filter( (v) => v.help && v.tags ).length
-const groupsIn = chats.filter(([id]) => id.endsWith('@g.us')) //groups.filter(v => !v.read_only)
+const groupsIn = chats.filter(([id]) => id.endsWith('@g.us'))
 const used = process.memoryUsage()
 const cpus = _cpus().map(cpu => {
 cpu.total = Object.keys(cpu.times).reduce((last, type) => last + cpu.times[type], 0)
@@ -55,34 +55,33 @@ setTimeout(resolve, 1000)
 }
 let timestamp = speed()
 let latensi = speed() - timestamp
-let goku = `╭─⬣「 *Info De Yuki* 」⬣\n`
-goku += `│ 👑 *Creador* : @${owner[0][0].split('@s.whatsapp.net')[0]}\n`
-goku += `│ 🍭 *Prefijo* : [  ${usedPrefix}  ]\n`
-goku += `│ 📦 *Total Plugins* : ${totalf}\n`
-goku += `│ 💫 *Plataforma* : ${platform()}\n`
-goku += `│ 🧿 *Servidor* : ${hostname()}\n`
-goku += `│ 🚀 *RAM* : ${format(totalmem() - freemem())} / ${format(totalmem())}\n`
-goku += `│ 🌟 *FreeRAM* : ${format(freemem())}\n`
-goku += `│ ✨️ *Speed* : ${latensi.toFixed(4)} ms\n`
-goku += `│ 🕗 *Uptime* : ${uptime}\n`
-goku += `│ 🍟 *Modo* : ${bot.public ? 'Privado' : 'Publico'}\n`
-goku += `│ 🚩 *Comandos Ejecutados* : ${toNum(totalStats)} ( *${totalStats}* )\n`
-goku += `│ 🐢 *Grupos Registrados* : ${toNum(totalchats)} ( *${totalchats}* )\n`
-goku += `│ 🍧 *Registrados* : ${toNum(totalreg)} ( *${totalreg}* ) Usuarios\n`
-goku += `╰─⬣\n\n`
-goku += `╭─⬣「 *Chats De Yuki* 」⬣\n`
-goku += `│ 🧃 *${groupsIn.length}* Chats en Grupos\n`
-goku += `│ 🌸 *${groupsIn.length}* Grupos Unidos\n`
-goku += `│ 🍁 *${groupsIn.length - groupsIn.length}* Grupos Salidos\n`
-goku += `│ 💬 *${chats.length - groupsIn.length}* Chats Privados\n`
-goku += `│ 💭 *${chats.length}* Chats Totales\n`
-goku += `╰─⬣\n\n`
-goku += `╭─⬣「 *NodeJS Uso de memoria* 」⬣\n`
-goku += `${'```' + Object.keys(used).map((key, _, arr) => `${key.padEnd(Math.max(...arr.map(v => v.length)), ' ')}: ${format(used[key])}`).join('\n') + '```'}\n`
-goku += `╰─⬣`
+let yuki = `╭─⬣「 *Info De ${botname}* 」⬣\n`
+yuki += `│ 👑 *Creador* : @${owner[0][0].split('@s.whatsapp.net')[0]}\n`
+yuki += `│ ${emoji} *Prefijo* : [  ${usedPrefix}  ]\n`
+yuki += `│ 📦 *Total Plugins* : ${totalf}\n`
+yuki += `│ 🖥️ *Plataforma* : ${platform()}\n`
+yuki += `│ 📡 *Servidor* : ${hostname()}\n`
+yuki += `│ 📈 *RAM* : ${format(totalmem() - freemem())} / ${format(totalmem())}\n`
+yuki += `│ 💾 *FreeRAM* : ${format(freemem())}\n`
+yuki += `│ 🚀 *Speed* : ${latensi.toFixed(4)} ms\n`
+yuki += `│ 🕗 *Uptime* : ${uptime}\n`
+yuki += `│ 🔮 *Modo* : ${bot.public ? 'Privado' : 'Publico'}\n`
+yuki += `│ 📜 *Comandos Ejecutados* : ${toNum(totalStats)} ( *${totalStats}* )\n`
+yuki += `│ 📍 *Grupos Registrados* : ${toNum(totalchats)} ( *${totalchats}* )\n`
+yuki += `│ 📌 *Registrados* : ${toNum(totalreg)} ( *${totalreg}* ) Usuarios\n`
+yuki += `╰─⬣\n\n`
+yuki += `╭─⬣「 *Chats De ${botname}* 」⬣\n`
+yuki += `│ 🪧 *${groupsIn.length}* Chats en Grupos\n`
+yuki += `│ 📰 *${groupsIn.length}* Grupos Unidos\n`
+yuki += `│ 📄 *${groupsIn.length - groupsIn.length}* Grupos Salidos\n`
+yuki += `│ 💬 *${chats.length - groupsIn.length}* Chats Privados\n`
+yuki += `│ 💭 *${chats.length}* Chats Totales\n`
+yuki += `╰─⬣\n\n`
+yuki += `╭─⬣「 *NodeJS Uso de memoria* 」⬣\n`
+yuki += `${'```' + Object.keys(used).map((key, _, arr) => `${key.padEnd(Math.max(...arr.map(v => v.length)), ' ')}: ${format(used[key])}`).join('\n') + '```'}\n`
+yuki += `╰─⬣`
 
-await conn.reply(m.chat, goku, fkontak, { contextInfo: { mentionedJid: [owner[0][0] + '@s.whatsapp.net'], externalAdReply: { mediaUrl: false, mediaType: 1, description: false, title: '↷✦╎Info - Bot╎🚩˖ ⸙',body: false, previewType: 0, thumbnail: icons, sourceUrl: redes}}})
-// await conn.sendFile(m.chat, imagen1, 'luffy.jpg', luffy, fkontak, null, rcanal)
+await conn.reply(m.chat, yuki, fkontak, { contextInfo: { mentionedJid: [owner[0][0] + '@s.whatsapp.net'] }})
 }
 handler.help = ['infobot']
 handler.tags = ['info']

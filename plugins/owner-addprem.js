@@ -2,7 +2,7 @@ const handler = async (m, {conn, text, usedPrefix, command}) => {
   let who;
   if (m.isGroup) who = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : false;
   else who = m.chat;
-  const textpremERROR = `👤 Ingrese el tag del usuario que quieras agregar como user premium`;
+  const textpremERROR = `${emoji} Ingrese el tag del usuario que quieras agregar como user premium.`;
   if (!who) return m.reply(textpremERROR, null, {mentions: conn.parseMention(textpremERROR)});
 
   const user = global.db.data.users[who];
@@ -10,7 +10,7 @@ const handler = async (m, {conn, text, usedPrefix, command}) => {
   // let name = await conn.getName(who)
   const name = await '@' + who.split`@`[0];
 
-  const ERROR = `👤 Ese usuario no está en mi base de datos!`;
+  const ERROR = `${emoji2} Ese usuario no está en mi base de datos.`;
   if (!user) return m.reply(ERROR, null, {mentions: conn.parseMention(ERROR)});
 
   const segundos10 = 10 * 1000; // 10 segundos en milisegundos
@@ -62,7 +62,8 @@ handler.help = ['addprem [@user] <days>'];
 handler.tags = ['owner'];
 handler.command = ['addprem', 'userpremium', 'addprem2', 'userpremium2', 'addprem3', 'userpremium3', 'addprem4', 'userpremium4'];
 handler.group = true;
-handler.rowner = true;
+handler.mods = true;
+
 export default handler;
 
 async function formatTime(ms) {
